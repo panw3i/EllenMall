@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class TokenCache {
 
     private static Logger logger = LoggerFactory.getLogger(TokenCache.class);
+    public static String TOKEN_PREFIX = "token_";
 
     //LRU算法清除 是没有顺序可言的 缓存有效期是12个小时
     private static LoadingCache<String,String> localCache = CacheBuilder.newBuilder().initialCapacity(1000).maximumSize(10000).expireAfterAccess(12, TimeUnit.HOURS)
@@ -40,6 +41,7 @@ public class TokenCache {
         }catch ( Exception e){
             logger.error("localCache get error",e);
         }
+        return null;
     }
 }
 

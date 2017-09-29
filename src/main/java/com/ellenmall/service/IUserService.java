@@ -9,8 +9,14 @@ import com.ellenmall.pojo.User;
 public interface IUserService {
 
     ServerReponse<User> login(String username, String password);
+
     ServerReponse<String> register(User user);
-    ServerReponse<String> checkValid(String str,String type);
+
+    ServerReponse<String> checkValid(String str, String type);
+
     ServerReponse selectQuestion(String username);
-    ServerReponse<String> checkAnswer(String username,String question,String answer);
+
+    ServerReponse<String> checkAnswer(String username, String question, String answer);
+
+    ServerReponse<String> forgetResetPwd(String username, String pwdnew, String forgetToken);
 }
