@@ -2,6 +2,7 @@ package com.ellenmall.service.impl;
 
 import com.ellenmall.common.Constants;
 import com.ellenmall.common.ServerReponse;
+import com.ellenmall.common.TokenCache;
 import com.ellenmall.dao.UserMapper;
 import com.ellenmall.pojo.User;
 import com.ellenmall.service.IUserService;
@@ -9,6 +10,8 @@ import com.ellenmall.util.MD5Util;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 /**
  * Created by zhengying on 2017/9/29.
@@ -73,4 +76,26 @@ public class IUserServiceImpl implements IUserService {
         return ServerReponse.createBySuccessMessage("效验成功");
     }
 
+    public ServerReponse selectQuestion(String username){
+        ServerReponse validResp = this.checkValid(username,Constants.USERNAME);
+        if(validResp.isSuccess()){
+            return ServerReponse.createByErrorMessage("用户不存在");
+        }
+        String question = userMapper.selectQuestionByUsername(username);
+        if (StringUtils.isNotBlank(question)){
+            return ServerReponse.createBySuccessMessage(question);
+        }
+
+        return ServerReponse.createByErrorMessage("找回密码的问题是空的");
+    }
+
+    public ServerReponse<String> checkAnswer(String username,String question,String answer){
+        int resultCount = userMapper.checkAnswer(username,question,answer);
+        if(resultCount>0){
+            String forgetToken = UUID.randomUUID().toString();//一般不会重复的字符串 把它放到本地cache中 设置有效期
+            TokenCache.setKey("token"+username,forgetToken);
+            return ServerReponse.createBySuccess(forgetToken);
+        }
+        return ServerReponse.createByErrorMessage("问题的答案错误");
+    }
 }
