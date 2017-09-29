@@ -23,4 +23,6 @@ public interface IUserService {
     ServerReponse<String> resetPwd(String pwdOld,String pwdNew,User user);
 
     ServerReponse<User> updateInformation(User user);
+
+    ServerReponse<User> getInfo(Integer userId);
 }
