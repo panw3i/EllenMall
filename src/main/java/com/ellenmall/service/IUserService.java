@@ -9,5 +9,7 @@ import com.ellenmall.pojo.User;
 public interface IUserService {
 
     ServerReponse<User> login(String username, String password);
+    ServerReponse<String> register(User user);
+    ServerReponse<String> checkValid(String str,String type);
 
 }
