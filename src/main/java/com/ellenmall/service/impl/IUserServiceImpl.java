@@ -119,4 +119,43 @@ public class IUserServiceImpl implements IUserService {
         return ServerReponse.createByErrorMessage("修改密码失败");
     }
 
+    public ServerReponse<String> resetPwd(String pwdOld,String pwdNew,User user){
+        //防止横向越权,要效验一下这个用户的旧密码
+        int resultCount = userMapper.checkPwd(pwdOld,user.getId());
+
+        if(resultCount == 0){
+            return ServerReponse.createByErrorMessage("旧密码错误");
+        }
+        user.setPassword(MD5Util.MD5EncodeUtf8(pwdNew));
+        int updateCount = userMapper.updateByPrimaryKeySelective(user);
+        if(updateCount>0){
+            return ServerReponse.createBySuccessMessage("密码更新成功");
+        }
+        return ServerReponse.createByErrorMessage("密码更新失败");
+
+    }
+
+    public ServerReponse<User> updateInformation(User user){
+        //username是不能更新的
+        //email也要进行一个就效验 效验新的email是否已经存在 email不能是已存在的
+        int resultCount = userMapper.checkEmailByUserId(user.getEmail(),user.getId());
+        if(resultCount>0){
+            return ServerReponse.createByErrorMessage("email已经存在 请更换email");
+        }
+        User updateUser = new User();
+        updateUser.setId(user.getId());
+        updateUser.setEmail(user.getEmail());
+        updateUser.setPhone(user.getPhone());
+        updateUser.setQuestion(user.getQuestion());
+        updateUser.setAnswer(user.getAnswer());
+
+        int updateCount = userMapper.updateByPrimaryKeySelective(updateUser);
+        if(updateCount > 0){
+            return ServerReponse.createBySuccess("更新个人信息成功",updateUser);
+        }
+        return ServerReponse.createByErrorMessage("更新个人信息失败");
+    }
+
+
+
 }

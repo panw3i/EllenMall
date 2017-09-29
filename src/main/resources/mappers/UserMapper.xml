@@ -192,4 +192,21 @@
     SET password = #{newPwd},update_time = now()
     where username = #{username}
   </update>
+  
+  <select id="checkPwd" resultType="int" parameterType="map">
+    SELECT
+    count(1)
+    from mmall_user
+    where password = #{password}
+    and id = #{userId}
+  </select>
+
+  <!-- 多个参数时 parameterType是map-->
+  <select id="checkEmailByUserId" resultType="int" parameterType="map">
+    SELECT
+    count(1)
+    from mmall_user
+    WHERE id != #{userId}
+    and email=#{email}
+  </select>
 </mapper>

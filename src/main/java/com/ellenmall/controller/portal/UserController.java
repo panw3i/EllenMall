@@ -80,4 +80,31 @@ public class UserController {
         return iUserService.forgetResetPwd(username, pwdnew, forgetToken);
     }
 
+    @RequestMapping(value = "reset_pwd.do",method = RequestMethod.GET)
+    @ResponseBody
+    public ServerReponse<String> resetPwd(HttpSession session,String pwdOld,String pwdNew){
+        User user = (User) session.getAttribute(Constants.CURRENT_USER);
+        if(user == null){
+            return ServerReponse.createByErrorMessage("用户未登录");
+        }
+        return iUserService.resetPwd(pwdOld,pwdNew,user);
+    }
+
+    @RequestMapping(value = "update_info.do",method = RequestMethod.GET)
+    @ResponseBody
+    public ServerReponse<User> updateInfomation(HttpSession session,User user){
+        User currentUser = (User) session.getAttribute(Constants.CURRENT_USER);
+        if(currentUser == null){
+            return ServerReponse.createByErrorMessage("用户未登录");
+        }
+        user.setId(currentUser.getId());
+        user.setUsername(currentUser.getUsername());
+        ServerReponse<User> resp = iUserService.updateInformation(user);
+        if(resp.isSuccess()){
+            resp.getData().setUsername(currentUser.getUsername());
+            session.setAttribute(Constants.CURRENT_USER,resp.getData());
+        }
+        return resp;
+    }
+
 }

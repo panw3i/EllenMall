@@ -19,4 +19,8 @@ public interface IUserService {
     ServerReponse<String> checkAnswer(String username, String question, String answer);
 
     ServerReponse<String> forgetResetPwd(String username, String pwdnew, String forgetToken);
+
+    ServerReponse<String> resetPwd(String pwdOld,String pwdNew,User user);
+
+    ServerReponse<User> updateInformation(User user);
 }
