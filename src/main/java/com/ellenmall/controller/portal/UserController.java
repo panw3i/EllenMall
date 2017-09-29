@@ -1,0 +1,35 @@
+package com.ellenmall.controller.portal;
+
+import com.ellenmall.common.Constants;
+import com.ellenmall.common.ServerReponse;
+import com.ellenmall.pojo.User;
+import com.ellenmall.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpSession;
+
+/**
+ * Created by zhengying on 2017/9/29.
+ */
+@Controller
+@RequestMapping("/user/")
+public class UserController {
+
+    @Autowired
+    private IUserService iUserService;
+
+    @RequestMapping(value="login.do",method= RequestMethod.GET)
+    @ResponseBody
+    public ServerReponse<User> login(String username, String password, HttpSession session){
+        //serviece -->mybaits -> dao
+        ServerReponse<User> response = iUserService.login(username,password);
+        if(response.isSuccess()){
+            session.setAttribute(Constants.CURRENT_USER,response.getData());
+        }
+        return response;
+    }
+}

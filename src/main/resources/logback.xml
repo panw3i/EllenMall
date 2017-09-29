@@ -16,9 +16,9 @@
     <!-- 通过日期rolling 存10天 -->
     <appender name="ellenmall" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--<File>d:/mmalllog/mmall.log</File>-->
-        <File>/developer/apache-tomcat-7.0.73/logs/mmall.log</File>
+        <File>/developer/apache-tomcat-7.0.73/logs/ellenmall.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/developer/apache-tomcat-7.0.73/logs/mmall.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>/developer/apache-tomcat-7.0.73/logs/ellenmall.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <append>true</append>
             <maxHistory>10</maxHistory>
         </rollingPolicy>
@@ -48,7 +48,7 @@
     </appender>
 
     <logger name="com.ellenmall" additivity="false" level="INFO" >
-        <appender-ref ref="mmall" />
+        <appender-ref ref="ellenmall" />
         <appender-ref ref="console"/>
     </logger>
 
