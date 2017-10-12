@@ -15,6 +15,11 @@ public class Constants {
         int ROLE_ADMIN= 1;
     }
 
+    public interface Cart{
+        int CART_CHECK = 1;
+        int CART_UNCHECK = 0;
+    }
+
     public enum ProductStatusEnum{
 
         ON_SALE(1,"在线");

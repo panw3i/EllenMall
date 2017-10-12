@@ -21,6 +21,18 @@
     from mmall_cart
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByProductId" resultMap="BaseResultMap" parameterType="map" resultType="com.ellenmall.pojo.Cart">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from mmall_cart
+    WHERE product_id=#{product_id}
+  </select>
+  <select id="selectCart" resultMap="BaseResultMap" resultType="com.ellenmall.pojo.Cart">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM mmall_cart
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from mmall_cart
     where id = #{id,jdbcType=INTEGER}
