@@ -8,14 +8,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
-/**
- * Created by geely
- */
+
 public class PropertiesUtil {
 
     private static Logger logger = LoggerFactory.getLogger(PropertiesUtil.class);
     private static Properties props;
 
+    //静态代码块 执行一次 最先执行
     static {
         String fileName = "ellenmall.properties";
         props = new Properties();
@@ -35,14 +34,10 @@ public class PropertiesUtil {
     }
 
     public static String getProperty(String key,String defaultValue){
-
         String value = props.getProperty(key.trim());
         if(StringUtils.isBlank(value)){
             value = defaultValue;
         }
         return value.trim();
     }
-
-
-
 }

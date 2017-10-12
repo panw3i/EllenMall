@@ -22,18 +22,36 @@ public class UserController {
     @Autowired
     private IUserService iUserService;
 
+    /**
+     * 注册
+     * @param user
+     * @return
+     */
     @RequestMapping(value = "register.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerReponse<String> register(User user){
         return iUserService.register(user);
     }
 
+    /**
+     * 验证邮箱有效性
+     * @param str
+     * @param type
+     * @return
+     */
     @RequestMapping(value = "check_valid.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerReponse<String> checkValid(String str,String type){
         return iUserService.checkValid(str,type);
     }
 
+    /**
+     * 登录
+     * @param username
+     * @param password
+     * @param session
+     * @return
+     */
     @RequestMapping(value="login.do",method= RequestMethod.POST)
     @ResponseBody
     public ServerReponse<User> login(String username, String password, HttpSession session){
@@ -45,6 +63,11 @@ public class UserController {
         return response;
     }
 
+    /**
+     * 登出
+     * @param session
+     * @return
+     */
     @RequestMapping(value="logout.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerReponse<User> logout(HttpSession session){
@@ -52,6 +75,11 @@ public class UserController {
         return ServerReponse.createBySuccess();
     }
 
+    /**
+     * 获取用户信息
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "get_user_info.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerReponse<User> getUserInfo(HttpSession session){
@@ -62,6 +90,12 @@ public class UserController {
         return ServerReponse.createByErrorMessage("用户未登录,无法获取当前用户信息");
     }
 
+    /**
+     * 更新用户信息
+     * @param session
+     * @param user
+     * @return
+     */
     @RequestMapping(value = "update_user_info.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerReponse<User> updateInfomation(HttpSession session,User user){
@@ -79,24 +113,50 @@ public class UserController {
         return resp;
     }
 
+    /**
+     * 忘记密码后获取账号的密保问题
+     * @param username
+     * @return
+     */
     @RequestMapping(value = "forget_get_question.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerReponse<String> forgetGetQuestion(String username){
         return iUserService.selectQuestion(username);
     }
 
+    /**
+     * 回答密保问题
+     * @param username
+     * @param question
+     * @param answer
+     * @return
+     */
     @RequestMapping(value = "forget_check_question.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerReponse<String> forgetCheckAnswer(String username,String question,String answer){
         return iUserService.checkAnswer(username, question, answer);
     }
 
+    /**
+     * 忘记密码后重设密码
+     * @param username
+     * @param pwdnew
+     * @param forgetToken
+     * @return
+     */
     @RequestMapping(value = "forget_reset_pwd.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerReponse<String> forgetResetPassword(String username,String pwdnew,String forgetToken){
         return iUserService.forgetResetPwd(username, pwdnew, forgetToken);
     }
 
+    /**
+     * 重设密码
+     * @param session
+     * @param pwdOld
+     * @param pwdNew
+     * @return
+     */
     @RequestMapping(value = "reset_pwd.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerReponse<String> resetPwd(HttpSession session,String pwdOld,String pwdNew){
