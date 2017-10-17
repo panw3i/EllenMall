@@ -8,13 +8,13 @@ import com.ellenmall.vo.CartVo;
  */
 public interface ICartService {
 
-    ServerReponse<CartVo> add(Integer productId, Integer count);
-    ServerReponse list();
-    ServerReponse delete_product(String productIds);
-    ServerReponse select(Integer id);
-    ServerReponse selectAll();
-    ServerReponse unselect(Integer id);
-    ServerReponse unselectAll();
-    ServerReponse unpdate(Integer id);
-    ServerReponse getCartProductCount();
+    ServerReponse<CartVo> add(Integer userId,Integer productId, Integer count);
+    ServerReponse delete_product(Integer userId,String productIds);
+    ServerReponse select(Integer userId,Integer id);
+    ServerReponse selectAll(Integer userId);
+    ServerReponse unselect(Integer userId,Integer id);
+    ServerReponse unselectAll(Integer userId);
+    ServerReponse getCartProductCount(Integer userId);
+    ServerReponse list(Integer userId,Integer pageNum,Integer pageSize);
+
 }

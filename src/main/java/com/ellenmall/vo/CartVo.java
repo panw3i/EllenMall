@@ -13,7 +13,6 @@ public class CartVo {
     private BigDecimal cartTotalPrice;
     private String imgHost;
 
-
     public List<CartProductListVo> getCartProductListVo() {
         return cartProductListVo;
     }

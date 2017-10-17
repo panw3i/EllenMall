@@ -19,7 +19,15 @@ public class CartProductListVo {
     private int productStock;
     private int productChecked;
     //返回两种枚举 限制数量成功:  限制数量失败:自动的把购物车中的数量修改成最大可购买的数量
-    private String limitQuantity;
+    private int  limitQuantity;
+
+    public int getLimitQuantity() {
+        return limitQuantity;
+    }
+
+    public void setLimitQuantity(int limitQuantity) {
+        this.limitQuantity = limitQuantity;
+    }
 
     public int getId() {
         return id;
@@ -109,11 +117,4 @@ public class CartProductListVo {
         this.productChecked = productChecked;
     }
 
-    public String getLimitQuantity() {
-        return limitQuantity;
-    }
-
-    public void setLimitQuantity(String limitQuantity) {
-        this.limitQuantity = limitQuantity;
-    }
 }

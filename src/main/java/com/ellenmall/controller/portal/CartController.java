@@ -21,12 +21,13 @@ public class CartController {
     @Autowired
     ICartService iCartService;
 
-    @RequestMapping("list.do")
-    @ResponseBody
-    public ServerReponse list(HttpSession session){
-        return iCartService.list();
-    }
-
+    /**
+     * 加入购物车
+     * @param session
+     * @param productId
+     * @param count
+     * @return
+     */
     @RequestMapping("add.do")
     @ResponseBody
     public ServerReponse add(HttpSession session,Integer productId,Integer count){
@@ -34,49 +35,116 @@ public class CartController {
         if(user == null){
             return ServerReponse.createByErrorMessage("未登录");
         }
-        return iCartService.add(productId,count);
+        return iCartService.add(user.getId(),productId,count);
     }
 
-    @RequestMapping("update.do")
+
+    /**
+     * 购物车列表
+     * @param session
+     * @return
+     */
+    @RequestMapping("list.do")
     @ResponseBody
-    public ServerReponse update(HttpSession session,Integer productId,Integer count){
-        return iCartService.unpdate(productId);
+    public ServerReponse list(HttpSession session,int pageNum,int pageSize){
+        User user = (User) session.getAttribute(Constants.CURRENT_USER);
+        if(user == null){
+            return ServerReponse.createByErrorMessage("未登录");
+        }
+        return iCartService.list(user.getId(),pageNum,pageSize);
     }
 
-    @RequestMapping("delete_product.do")
-    @ResponseBody
-    public ServerReponse delete_product(HttpSession session,String productIds){
-        return iCartService.delete_product(productIds);
-    }
-
+    /**
+     * 选中购物车中的商品
+     * @param session
+     * @param cartId
+     * @return
+     */
     @RequestMapping("select.do")
     @ResponseBody
-    public ServerReponse select(HttpSession session,Integer productId){
-        return iCartService.select(productId);
+    public ServerReponse select(HttpSession session,Integer cartId){
+        User user = (User) session.getAttribute(Constants.CURRENT_USER);
+        if(user == null){
+            return ServerReponse.createByErrorMessage("未登录");
+        }
+        return iCartService.select(user.getId(),cartId);
     }
 
-    @RequestMapping("un_select.do")
-    @ResponseBody
-    public ServerReponse un_select(HttpSession session,Integer productId){
-        return iCartService.unselect(productId);
-    }
-
-    @RequestMapping("get_cart_product_count.do")
-    @ResponseBody
-    public ServerReponse get_cart_product_count(HttpSession session){
-        return iCartService.getCartProductCount();
-    }
-
+    /**
+     * 选中所有产品
+     * @param session
+     * @return
+     */
     @RequestMapping("select_all.do")
     @ResponseBody
     public ServerReponse select_all(HttpSession session){
-        return iCartService.selectAll();
+        User user = (User) session.getAttribute(Constants.CURRENT_USER);
+        if(user == null){
+            return ServerReponse.createByErrorMessage("未登录");
+        }
+        return iCartService.selectAll(user.getId());
     }
 
+    /**
+     * 取消选中购物车中的产品
+     * @param session
+     * @param cartId
+     * @return
+     */
+    @RequestMapping("un_select.do")
+    @ResponseBody
+    public ServerReponse un_select(HttpSession session,Integer cartId){
+        User user = (User) session.getAttribute(Constants.CURRENT_USER);
+        if(user == null){
+            return ServerReponse.createByErrorMessage("未登录");
+        }
+        return iCartService.unselect(user.getId(),cartId);
+    }
+
+    /**
+     * 取消选中所有产品
+     * @param session
+     * @return
+     */
     @RequestMapping("unselect_all.do")
     @ResponseBody
     public ServerReponse unselect_all(HttpSession session){
-        return iCartService.unselectAll();
+        User user = (User) session.getAttribute(Constants.CURRENT_USER);
+        if(user == null){
+            return ServerReponse.createByErrorMessage("未登录");
+        }
+        return iCartService.unselectAll(user.getId());
+    }
+
+    /**
+     * 获取购物车中产品数量
+     * @param session
+     * @return
+     */
+    @RequestMapping("get_cart_product_count.do")
+    @ResponseBody
+    public ServerReponse get_cart_product_count(HttpSession session){
+        User user = (User) session.getAttribute(Constants.CURRENT_USER);
+        if(user == null){
+            return ServerReponse.createByErrorMessage("未登录");
+        }
+        return iCartService.getCartProductCount(user.getId());
+    }
+
+    /**
+     * 删除购物车中商品
+     * @param session
+     * @param cartIds
+     * @return
+     */
+    @RequestMapping("delete_product.do")
+    @ResponseBody
+    public ServerReponse delete_product(HttpSession session,String cartIds){
+        User user = (User) session.getAttribute(Constants.CURRENT_USER);
+        if(user == null){
+            return ServerReponse.createByErrorMessage("未登录");
+        }
+        return iCartService.delete_product(user.getId(),cartIds);
     }
 
 }

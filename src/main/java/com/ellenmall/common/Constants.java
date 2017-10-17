@@ -18,6 +18,11 @@ public class Constants {
     public interface Cart{
         int CART_CHECK = 1;
         int CART_UNCHECK = 0;
+        String ADD_TO_CART_FAIL = "加入购物车失败";
+        int LIMIT_QUANTITY_TRUE = 0;
+        int LIMIT_QUANTITY_FALSE = 1;
+        int ALL_CHECKED= 0;
+
     }
 
     public enum ProductStatusEnum{

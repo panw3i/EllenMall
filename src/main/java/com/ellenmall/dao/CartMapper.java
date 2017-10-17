@@ -1,10 +1,12 @@
 package com.ellenmall.dao;
 
 import com.ellenmall.pojo.Cart;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface CartMapper {
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(Cart record);
@@ -17,7 +19,12 @@ public interface CartMapper {
 
     int updateByPrimaryKey(Cart record);
 
-    Cart selectByProductId(Integer product_id);
+    List<Cart> selectCartByUserId(Integer user_id);
 
-    List<Cart> selectCart();
+    Cart selectCartByUserIdProductId(@Param("user_id")Integer user_id, @Param("product_id")Integer product_id);
+
+    int selectCartProductCheckStatusByUserId(Integer userId);
+
+    int selectCountByUserId(Integer userId);
+
 }
