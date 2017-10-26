@@ -1,6 +1,9 @@
 package com.ellenmall.dao;
 
 import com.ellenmall.pojo.Order;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface OrderMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +17,6 @@ public interface OrderMapper {
     int updateByPrimaryKeySelective(Order record);
 
     int updateByPrimaryKey(Order record);
+
+    List<Order> selectOrderListByUserId(@Param("userId") Integer userId);
 }

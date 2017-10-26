@@ -122,6 +122,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.ellenmall.pojo.Shipping" >
     update mmall_shipping
     <set >
@@ -176,4 +177,16 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectShippingByUserId" parameterType="map" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM mmall_shipping
+    WHERE user_id=#{user_id}
+  </select>
+  <select id="selectShippingByUserIdShippingId" parameterType="map" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM mmall_shipping
+    WHERE user_id=#{user_id} and id=#{shipping_id}
+  </select>
+
 </mapper>

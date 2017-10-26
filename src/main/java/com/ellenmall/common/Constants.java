@@ -22,7 +22,19 @@ public class Constants {
         int LIMIT_QUANTITY_TRUE = 0;
         int LIMIT_QUANTITY_FALSE = 1;
         int ALL_CHECKED= 0;
+    }
 
+    public interface Order{
+        //订单状态
+        int STATUS_WAIT_PAY = 1;
+        int STATUS_PAYED = 2;
+        int STATUS_SENDED = 3;
+        int STATUS_CANCELED = 4;
+        int STATUS_DELETED = 5;
+
+        //支付方式
+        int PAY_ALI = 1;
+        int PAY_WX = 2;
     }
 
     public enum ProductStatusEnum{
