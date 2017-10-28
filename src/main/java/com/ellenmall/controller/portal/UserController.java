@@ -1,7 +1,7 @@
 package com.ellenmall.controller.portal;
 
 import com.ellenmall.common.Constants;
-import com.ellenmall.common.ServerReponse;
+import com.ellenmall.common.ServerResponse;
 import com.ellenmall.pojo.User;
 import com.ellenmall.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class UserController {
      */
     @RequestMapping(value = "register.do",method = RequestMethod.POST)
     @ResponseBody
-    public ServerReponse<String> register(User user){
+    public ServerResponse<String> register(User user){
         return iUserService.register(user);
     }
 
@@ -41,7 +41,7 @@ public class UserController {
      */
     @RequestMapping(value = "check_valid.do",method = RequestMethod.POST)
     @ResponseBody
-    public ServerReponse<String> checkValid(String str,String type){
+    public ServerResponse<String> checkValid(String str, String type){
         return iUserService.checkValid(str,type);
     }
 
@@ -54,9 +54,9 @@ public class UserController {
      */
     @RequestMapping(value="login.do",method= RequestMethod.POST)
     @ResponseBody
-    public ServerReponse<User> login(String username, String password, HttpSession session){
+    public ServerResponse<User> login(String username, String password, HttpSession session){
         //serviece -->mybaits -> dao
-        ServerReponse<User> response = iUserService.login(username,password);
+        ServerResponse<User> response = iUserService.login(username,password);
         if(response.isSuccess()){
             session.setAttribute(Constants.CURRENT_USER,response.getData());
         }
@@ -70,9 +70,9 @@ public class UserController {
      */
     @RequestMapping(value="logout.do",method = RequestMethod.POST)
     @ResponseBody
-    public ServerReponse<User> logout(HttpSession session){
+    public ServerResponse<User> logout(HttpSession session){
         session.removeAttribute(Constants.CURRENT_USER);
-        return ServerReponse.createBySuccess();
+        return ServerResponse.createBySuccess();
     }
 
     /**
@@ -82,12 +82,12 @@ public class UserController {
      */
     @RequestMapping(value = "get_user_info.do",method = RequestMethod.POST)
     @ResponseBody
-    public ServerReponse<User> getUserInfo(HttpSession session){
+    public ServerResponse<User> getUserInfo(HttpSession session){
         User user = (User) session.getAttribute(Constants.CURRENT_USER);
         if(user != null){
-            return ServerReponse.createBySuccess(user);
+            return ServerResponse.createBySuccess(user);
         }
-        return ServerReponse.createByErrorMessage("用户未登录,无法获取当前用户信息");
+        return ServerResponse.createByErrorMessage("用户未登录,无法获取当前用户信息");
     }
 
     /**
@@ -98,14 +98,14 @@ public class UserController {
      */
     @RequestMapping(value = "update_user_info.do",method = RequestMethod.POST)
     @ResponseBody
-    public ServerReponse<User> updateInfomation(HttpSession session,User user){
+    public ServerResponse<User> updateInfomation(HttpSession session, User user){
         User currentUser = (User) session.getAttribute(Constants.CURRENT_USER);
         if(currentUser == null){
-            return ServerReponse.createByErrorMessage("用户未登录");
+            return ServerResponse.createByErrorMessage("用户未登录");
         }
         user.setId(currentUser.getId());
         user.setUsername(currentUser.getUsername());
-        ServerReponse<User> resp = iUserService.updateInformation(user);
+        ServerResponse<User> resp = iUserService.updateInformation(user);
         if(resp.isSuccess()){
             resp.getData().setUsername(currentUser.getUsername());
             session.setAttribute(Constants.CURRENT_USER,resp.getData());
@@ -120,7 +120,7 @@ public class UserController {
      */
     @RequestMapping(value = "forget_get_question.do",method = RequestMethod.POST)
     @ResponseBody
-    public ServerReponse<String> forgetGetQuestion(String username){
+    public ServerResponse<String> forgetGetQuestion(String username){
         return iUserService.selectQuestion(username);
     }
 
@@ -133,7 +133,7 @@ public class UserController {
      */
     @RequestMapping(value = "forget_check_question.do",method = RequestMethod.POST)
     @ResponseBody
-    public ServerReponse<String> forgetCheckAnswer(String username,String question,String answer){
+    public ServerResponse<String> forgetCheckAnswer(String username, String question, String answer){
         return iUserService.checkAnswer(username, question, answer);
     }
 
@@ -146,7 +146,7 @@ public class UserController {
      */
     @RequestMapping(value = "forget_reset_pwd.do",method = RequestMethod.POST)
     @ResponseBody
-    public ServerReponse<String> forgetResetPassword(String username,String pwdnew,String forgetToken){
+    public ServerResponse<String> forgetResetPassword(String username, String pwdnew, String forgetToken){
         return iUserService.forgetResetPwd(username, pwdnew, forgetToken);
     }
 
@@ -159,10 +159,10 @@ public class UserController {
      */
     @RequestMapping(value = "reset_pwd.do",method = RequestMethod.POST)
     @ResponseBody
-    public ServerReponse<String> resetPwd(HttpSession session,String pwdOld,String pwdNew){
+    public ServerResponse<String> resetPwd(HttpSession session, String pwdOld, String pwdNew){
         User user = (User) session.getAttribute(Constants.CURRENT_USER);
         if(user == null){
-            return ServerReponse.createByErrorMessage("用户未登录");
+            return ServerResponse.createByErrorMessage("用户未登录");
         }
         return iUserService.resetPwd(pwdOld,pwdNew,user);
     }

@@ -1,7 +1,7 @@
 package com.ellenmall.controller.portal;
 
 import com.ellenmall.common.Constants;
-import com.ellenmall.common.ServerReponse;
+import com.ellenmall.common.ServerResponse;
 import com.ellenmall.pojo.User;
 import com.ellenmall.service.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +30,10 @@ public class CartController {
      */
     @RequestMapping("add.do")
     @ResponseBody
-    public ServerReponse add(HttpSession session,Integer productId,Integer count){
+    public ServerResponse add(HttpSession session, Integer productId, Integer count){
         User user = (User) session.getAttribute(Constants.CURRENT_USER);
         if(user == null){
-            return ServerReponse.createByErrorMessage("未登录");
+            return ServerResponse.createByErrorMessage("未登录");
         }
         return iCartService.add(user.getId(),productId,count);
     }
@@ -46,10 +46,10 @@ public class CartController {
      */
     @RequestMapping("list.do")
     @ResponseBody
-    public ServerReponse list(HttpSession session,int pageNum,int pageSize){
+    public ServerResponse list(HttpSession session, int pageNum, int pageSize){
         User user = (User) session.getAttribute(Constants.CURRENT_USER);
         if(user == null){
-            return ServerReponse.createByErrorMessage("未登录");
+            return ServerResponse.createByErrorMessage("未登录");
         }
         return iCartService.list(user.getId(),pageNum,pageSize);
     }
@@ -62,10 +62,10 @@ public class CartController {
      */
     @RequestMapping("select.do")
     @ResponseBody
-    public ServerReponse select(HttpSession session,Integer cartId){
+    public ServerResponse select(HttpSession session, Integer cartId){
         User user = (User) session.getAttribute(Constants.CURRENT_USER);
         if(user == null){
-            return ServerReponse.createByErrorMessage("未登录");
+            return ServerResponse.createByErrorMessage("未登录");
         }
         return iCartService.select(user.getId(),cartId);
     }
@@ -77,10 +77,10 @@ public class CartController {
      */
     @RequestMapping("select_all.do")
     @ResponseBody
-    public ServerReponse select_all(HttpSession session){
+    public ServerResponse select_all(HttpSession session){
         User user = (User) session.getAttribute(Constants.CURRENT_USER);
         if(user == null){
-            return ServerReponse.createByErrorMessage("未登录");
+            return ServerResponse.createByErrorMessage("未登录");
         }
         return iCartService.selectAll(user.getId());
     }
@@ -93,10 +93,10 @@ public class CartController {
      */
     @RequestMapping("un_select.do")
     @ResponseBody
-    public ServerReponse un_select(HttpSession session,Integer cartId){
+    public ServerResponse un_select(HttpSession session, Integer cartId){
         User user = (User) session.getAttribute(Constants.CURRENT_USER);
         if(user == null){
-            return ServerReponse.createByErrorMessage("未登录");
+            return ServerResponse.createByErrorMessage("未登录");
         }
         return iCartService.unselect(user.getId(),cartId);
     }
@@ -108,10 +108,10 @@ public class CartController {
      */
     @RequestMapping("unselect_all.do")
     @ResponseBody
-    public ServerReponse unselect_all(HttpSession session){
+    public ServerResponse unselect_all(HttpSession session){
         User user = (User) session.getAttribute(Constants.CURRENT_USER);
         if(user == null){
-            return ServerReponse.createByErrorMessage("未登录");
+            return ServerResponse.createByErrorMessage("未登录");
         }
         return iCartService.unselectAll(user.getId());
     }
@@ -123,10 +123,10 @@ public class CartController {
      */
     @RequestMapping("get_cart_product_count.do")
     @ResponseBody
-    public ServerReponse get_cart_product_count(HttpSession session){
+    public ServerResponse get_cart_product_count(HttpSession session){
         User user = (User) session.getAttribute(Constants.CURRENT_USER);
         if(user == null){
-            return ServerReponse.createByErrorMessage("未登录");
+            return ServerResponse.createByErrorMessage("未登录");
         }
         return iCartService.getCartProductCount(user.getId());
     }
@@ -139,10 +139,10 @@ public class CartController {
      */
     @RequestMapping("delete_product.do")
     @ResponseBody
-    public ServerReponse delete_product(HttpSession session,String cartIds){
+    public ServerResponse delete_product(HttpSession session, String cartIds){
         User user = (User) session.getAttribute(Constants.CURRENT_USER);
         if(user == null){
-            return ServerReponse.createByErrorMessage("未登录");
+            return ServerResponse.createByErrorMessage("未登录");
         }
         return iCartService.delete_product(user.getId(),cartIds);
     }

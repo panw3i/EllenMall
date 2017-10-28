@@ -1,7 +1,7 @@
 package com.ellenmall.controller.portal;
 
 import com.ellenmall.common.Constants;
-import com.ellenmall.common.ServerReponse;
+import com.ellenmall.common.ServerResponse;
 import com.ellenmall.pojo.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,10 +22,10 @@ public class OrderController {
      * @param session
      * @return
      */
-    public ServerReponse create(HttpSession session,String shippingIds){
+    public ServerResponse create(HttpSession session, String shippingIds){
         User user = (User) session.getAttribute(Constants.CURRENT_USER);
         if(user == null){
-            return ServerReponse.createByErrorMessage("用户未登录");
+            return ServerResponse.createByErrorMessage("用户未登录");
         }
         
         return null;
@@ -38,7 +38,7 @@ public class OrderController {
      * @param pageSize
      * @return
      */
-    public ServerReponse list(HttpSession session,Integer pageNum,Integer pageSize){
+    public ServerResponse list(HttpSession session, Integer pageNum, Integer pageSize){
         return null;
     }
 
@@ -47,7 +47,7 @@ public class OrderController {
      * @param session
      * @return
      */
-    public ServerReponse get_order_cart_product(HttpSession session){
+    public ServerResponse get_order_cart_product(HttpSession session){
         return null;
     }
 
@@ -57,7 +57,7 @@ public class OrderController {
      * @param orderNum
      * @return
      */
-    public ServerReponse detail(HttpSession session,Integer orderNum){
+    public ServerResponse detail(HttpSession session, Integer orderNum){
         return null;
     }
 
@@ -67,7 +67,7 @@ public class OrderController {
      * @param orderNum
      * @return
      */
-    public ServerReponse cancel(HttpSession session,Integer orderNum){
+    public ServerResponse cancel(HttpSession session, Integer orderNum){
         return null;
     }
 
@@ -77,7 +77,7 @@ public class OrderController {
      * @param orderNum
      * @return
      */
-    public ServerReponse del(HttpSession session,Integer orderNum){
+    public ServerResponse del(HttpSession session, Integer orderNum){
         return null;
     }
 

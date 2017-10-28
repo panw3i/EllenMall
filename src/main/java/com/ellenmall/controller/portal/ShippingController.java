@@ -1,7 +1,7 @@
 package com.ellenmall.controller.portal;
 
 import com.ellenmall.common.Constants;
-import com.ellenmall.common.ServerReponse;
+import com.ellenmall.common.ServerResponse;
 import com.ellenmall.pojo.Shipping;
 import com.ellenmall.pojo.User;
 import com.ellenmall.service.IShippingService;
@@ -24,10 +24,10 @@ public class ShippingController {
 
     @RequestMapping("add.do")
     @ResponseBody
-    public ServerReponse add(HttpSession session, Shipping shipping){
+    public ServerResponse add(HttpSession session, Shipping shipping){
         User user = (User) session.getAttribute(Constants.CURRENT_USER);
         if(user == null){
-            return ServerReponse.createByErrorMessage("未登录");
+            return ServerResponse.createByErrorMessage("未登录");
         }
         shipping.setUserId(user.getId());
         return iShippingService.add(shipping);
@@ -35,20 +35,20 @@ public class ShippingController {
 
     @RequestMapping("list.do")
     @ResponseBody
-    public ServerReponse list(HttpSession session){
+    public ServerResponse list(HttpSession session){
         User user = (User) session.getAttribute(Constants.CURRENT_USER);
         if(user == null){
-            return ServerReponse.createByErrorMessage("未登录");
+            return ServerResponse.createByErrorMessage("未登录");
         }
         return iShippingService.list(user.getId());
     }
 
     @RequestMapping("update.do")
     @ResponseBody
-    public ServerReponse update(HttpSession session,Shipping shipping){
+    public ServerResponse update(HttpSession session, Shipping shipping){
         User user = (User) session.getAttribute(Constants.CURRENT_USER);
         if(user == null){
-            return ServerReponse.createByErrorMessage("未登录");
+            return ServerResponse.createByErrorMessage("未登录");
         }
         shipping.setUserId(user.getId());
         return iShippingService.update(shipping);
@@ -56,20 +56,20 @@ public class ShippingController {
 
     @RequestMapping("select.do")
     @ResponseBody
-    public ServerReponse select(HttpSession session,Integer shippingId){
+    public ServerResponse select(HttpSession session, Integer shippingId){
         User user = (User) session.getAttribute(Constants.CURRENT_USER);
         if(user == null){
-            return ServerReponse.createByErrorMessage("未登录");
+            return ServerResponse.createByErrorMessage("未登录");
         }
         return iShippingService.select(user.getId(),shippingId);
     }
 
     @RequestMapping("del.do")
     @ResponseBody
-    public ServerReponse del(HttpSession session, Integer shippingId){
+    public ServerResponse del(HttpSession session, Integer shippingId){
         User user = (User) session.getAttribute(Constants.CURRENT_USER);
         if(user == null){
-            return ServerReponse.createByErrorMessage("未登录");
+            return ServerResponse.createByErrorMessage("未登录");
         }
         return iShippingService.del(user.getId(),shippingId);
     }

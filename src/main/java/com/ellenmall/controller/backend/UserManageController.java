@@ -1,7 +1,7 @@
 package com.ellenmall.controller.backend;
 
 import com.ellenmall.common.Constants;
-import com.ellenmall.common.ServerReponse;
+import com.ellenmall.common.ServerResponse;
 import com.ellenmall.pojo.User;
 import com.ellenmall.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +24,15 @@ public class UserManageController {
 
     @RequestMapping(value="login.do",method= RequestMethod.POST)
     @ResponseBody
-    public ServerReponse<User> login(String username, String password, HttpSession session){
-        ServerReponse<User> resp = iUserService.login(username, password);
+    public ServerResponse<User> login(String username, String password, HttpSession session){
+        ServerResponse<User> resp = iUserService.login(username, password);
         if(resp.isSuccess()){
             User user = resp.getData();
             if(user.getRole() == Constants.Role.ROLE_ADMIN){
                 session.setAttribute(Constants.CURRENT_USER,user);
                 return resp;
             }else{
-                return ServerReponse.createByErrorMessage("不是管理员,无法登录");
+                return ServerResponse.createByErrorMessage("不是管理员,无法登录");
             }
         }
         return resp;

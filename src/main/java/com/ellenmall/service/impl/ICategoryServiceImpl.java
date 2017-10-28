@@ -1,6 +1,6 @@
 package com.ellenmall.service.impl;
 
-import com.ellenmall.common.ServerReponse;
+import com.ellenmall.common.ServerResponse;
 import com.ellenmall.dao.CategoryMapper;
 import com.ellenmall.pojo.Category;
 import com.ellenmall.service.ICategoryService;
@@ -34,11 +34,11 @@ public class ICategoryServiceImpl implements ICategoryService {
      * @param parentId
      * @return
      */
-    public ServerReponse addCategory(String cateName,Integer parentId){
+    public ServerResponse addCategory(String cateName, Integer parentId){
 
         //分类名称判空
         if(parentId == null || StringUtils.isBlank(cateName)){
-            return ServerReponse.createByErrorMessage("商品品类参数错误");
+            return ServerResponse.createByErrorMessage("商品品类参数错误");
         }
         Category category = new Category();
         category.setName(cateName);
@@ -46,9 +46,9 @@ public class ICategoryServiceImpl implements ICategoryService {
         category.setStatus(true);
         int rowCount = categoryMapper.insert(category);
         if(rowCount > 0){
-            return ServerReponse.createBySuccess("添加品类成功");
+            return ServerResponse.createBySuccess("添加品类成功");
         }else{
-            return ServerReponse.createByErrorMessage("添加品类失败");
+            return ServerResponse.createByErrorMessage("添加品类失败");
         }
     }
 
@@ -58,19 +58,19 @@ public class ICategoryServiceImpl implements ICategoryService {
      * @param cateName
      * @return
      */
-    public ServerReponse updateCateName(Integer cateId,String cateName){
+    public ServerResponse updateCateName(Integer cateId, String cateName){
         //分类名称判空
         if(cateId == null || StringUtils.isBlank(cateName)){
-            return ServerReponse.createByErrorMessage("商品品类参数错误");
+            return ServerResponse.createByErrorMessage("商品品类参数错误");
         }
         Category cate = new Category();
         cate.setId(cateId);
         cate.setName(cateName);
         int rowCount = categoryMapper.updateByPrimaryKeySelective(cate);
         if(rowCount>0){
-            return ServerReponse.createBySuccessMessage("更新品类名成功");
+            return ServerResponse.createBySuccessMessage("更新品类名成功");
         }
-        return ServerReponse.createByErrorMessage("更新品类名失败");
+        return ServerResponse.createByErrorMessage("更新品类名失败");
     }
 
     /**
@@ -78,12 +78,12 @@ public class ICategoryServiceImpl implements ICategoryService {
      * @param cateId
      * @return
      */
-    public ServerReponse<List<Category>> getChildrenParallelCate(Integer cateId){
+    public ServerResponse<List<Category>> getChildrenParallelCate(Integer cateId){
         List<Category> categories = categoryMapper.selectCateChildrenByParentId(cateId);
         if(CollectionUtils.isEmpty(categories)){
             logger.info("未找到当前分类的子分类");
         }
-        return ServerReponse.createBySuccess(categories);
+        return ServerResponse.createBySuccess(categories);
     }
 
     /**
@@ -91,7 +91,7 @@ public class ICategoryServiceImpl implements ICategoryService {
      * @param cateId
      * @return
      */
-    public ServerReponse selectCateAndChildrenById(Integer cateId) {
+    public ServerResponse selectCateAndChildrenById(Integer cateId) {
         Set<Category> categorySet = Sets.newHashSet();
         findChildCate(categorySet,cateId);
         List<Integer> cateIdList = Lists.newArrayList();
@@ -100,7 +100,7 @@ public class ICategoryServiceImpl implements ICategoryService {
                 cateIdList.add(categoryItem.getId());
             }
         }
-        return ServerReponse.createBySuccess(cateIdList);
+        return ServerResponse.createBySuccess(cateIdList);
     }
 
     //递归算法算出子节点

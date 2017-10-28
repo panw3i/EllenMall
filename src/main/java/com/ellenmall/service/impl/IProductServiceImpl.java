@@ -2,7 +2,7 @@ package com.ellenmall.service.impl;
 
 import com.ellenmall.common.Constants;
 import com.ellenmall.common.ResponseCode;
-import com.ellenmall.common.ServerReponse;
+import com.ellenmall.common.ServerResponse;
 import com.ellenmall.dao.CategoryMapper;
 import com.ellenmall.dao.ProductMapper;
 import com.ellenmall.pojo.Category;
@@ -38,7 +38,7 @@ public class IProductServiceImpl implements IProductService {
      * @param product
      * @return
      */
-    public ServerReponse saveOrUpdateProduct(Product product){
+    public ServerResponse saveOrUpdateProduct(Product product){
         if(product != null){
             //设置商品主图
             if(StringUtils.isNoneBlank(product.getSubImages())){
@@ -51,21 +51,21 @@ public class IProductServiceImpl implements IProductService {
             if(product.getId() != null){
                 int rowCount = productMapper.updateByPrimaryKey(product);
                 if(rowCount>0){
-                    return ServerReponse.createBySuccessMessage("更新产品成功");
+                    return ServerResponse.createBySuccessMessage("更新产品成功");
                 }else{
-                    return ServerReponse.createByErrorMessage("更新产品失败");
+                    return ServerResponse.createByErrorMessage("更新产品失败");
                 }
             //新增商品
             }else{
                 int rowCount = productMapper.insert(product);
                 if(rowCount>0){
-                    return ServerReponse.createBySuccessMessage("新增产品成功");
+                    return ServerResponse.createBySuccessMessage("新增产品成功");
                 }else{
-                    return ServerReponse.createByErrorMessage("新增产品失败");
+                    return ServerResponse.createByErrorMessage("新增产品失败");
                 }
             }
         }
-        return ServerReponse.createByErrorMessage("新增或更新产品参数不正确");
+        return ServerResponse.createByErrorMessage("新增或更新产品参数不正确");
     }
 
     /**
@@ -74,18 +74,18 @@ public class IProductServiceImpl implements IProductService {
      * @param status
      * @return
      */
-    public ServerReponse setSaleStatus(Integer productId,Integer status){
+    public ServerResponse setSaleStatus(Integer productId, Integer status){
         if(productId == null || status == null){
-            return ServerReponse.createByErrCodeMsg(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+            return ServerResponse.createByErrCodeMsg(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
         Product product = new Product();
         product.setId(productId);
         product.setStatus(status);
         int rowCount = productMapper.updateByPrimaryKeySelective(product);
         if(rowCount > 0){
-            return ServerReponse.createBySuccess("修改产品销售状态成功");
+            return ServerResponse.createBySuccess("修改产品销售状态成功");
         }
-        return ServerReponse.createByErrorMessage("修改产品销售状态失败");
+        return ServerResponse.createByErrorMessage("修改产品销售状态失败");
     }
 
     /**
@@ -93,18 +93,18 @@ public class IProductServiceImpl implements IProductService {
      * @param productId
      * @return
      */
-    public ServerReponse manageProductDetail(Integer productId){
+    public ServerResponse manageProductDetail(Integer productId){
         if(productId == null){
-            return ServerReponse.createByErrCodeMsg(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+            return ServerResponse.createByErrCodeMsg(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
         Product product = productMapper.selectByPrimaryKey(productId);
         if(product!=null){
             //vo对象 - value object 我们这里使用的是这个vo valueObject
             //pojo -> bo{business obj} -> vo(view object)
             ProductDetailVo productDetailVo = assembleProductDetailVo(product);
-            return ServerReponse.createBySuccess(productDetailVo);
+            return ServerResponse.createBySuccess(productDetailVo);
         }
-        return ServerReponse.createByErrorMessage("产品已下架或删除");
+        return ServerResponse.createByErrorMessage("产品已下架或删除");
     }
 
     /**
@@ -113,7 +113,7 @@ public class IProductServiceImpl implements IProductService {
      * @param pageSize
      * @return
      */
-    public ServerReponse<PageInfo> manageProductList(Integer cateId, int pageNum, int pageSize){
+    public ServerResponse<PageInfo> manageProductList(Integer cateId, int pageNum, int pageSize){
         //start page
         PageHelper.startPage(pageNum,pageSize);
         List<Product> productList = productMapper.selectProductListByCateId(cateId);
@@ -124,7 +124,7 @@ public class IProductServiceImpl implements IProductService {
         }
         PageInfo pageInfo = new PageInfo(productList);
         pageInfo.setList(productListVOList);
-        return ServerReponse.createBySuccess(pageInfo);
+        return ServerResponse.createBySuccess(pageInfo);
     }
 
     /**
@@ -133,7 +133,7 @@ public class IProductServiceImpl implements IProductService {
      * @param pageSize
      * @return
      */
-    public ServerReponse<PageInfo> manageSearchList(Integer product_id,String product_name,Integer pageNum,Integer pageSize){
+    public ServerResponse<PageInfo> manageSearchList(Integer product_id, String product_name, Integer pageNum, Integer pageSize){
         PageHelper.startPage(pageNum,pageSize);
         if(StringUtils.isNoneBlank(product_name)){
             product_name = new StringBuilder().append("%").append(product_name).append("%").toString();
@@ -146,7 +146,7 @@ public class IProductServiceImpl implements IProductService {
         }
         PageInfo pageInfo = new PageInfo(productList);
         pageInfo.setList(productListVOList);
-        return ServerReponse.createBySuccess(pageInfo);
+        return ServerResponse.createBySuccess(pageInfo);
     }
 
     /**
@@ -154,21 +154,21 @@ public class IProductServiceImpl implements IProductService {
      * @param productId
      * @return
      */
-    public ServerReponse productDetail(Integer productId){
+    public ServerResponse productDetail(Integer productId){
         if(productId == null){
-            return ServerReponse.createByErrCodeMsg(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+            return ServerResponse.createByErrCodeMsg(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
         Product product = productMapper.selectByPrimaryKey(productId);
         if(product!=null){
             if(product.getStatus() != Constants.ProductStatusEnum.ON_SALE.getCode()){
-                return ServerReponse.createByErrorMessage("该商品已下架或删除");
+                return ServerResponse.createByErrorMessage("该商品已下架或删除");
             }
             //vo对象 - value object 我们这里使用的是这个vo valueObject
             //pojo -> bo{business obj} -> vo(view object)
             ProductDetailVo productDetailVo = assembleProductDetailVo(product);
-            return ServerReponse.createBySuccess(productDetailVo);
+            return ServerResponse.createBySuccess(productDetailVo);
         }
-        return ServerReponse.createByErrorMessage("产品已下架或删除");
+        return ServerResponse.createByErrorMessage("产品已下架或删除");
     }
 
     /**
@@ -177,7 +177,7 @@ public class IProductServiceImpl implements IProductService {
      * @param pageSize
      * @return
      */
-    public ServerReponse<PageInfo> productList(Integer cateId, int pageNum, int pageSize){
+    public ServerResponse<PageInfo> productList(Integer cateId, int pageNum, int pageSize){
         //start page
         PageHelper.startPage(pageNum,pageSize);
         List<Product> productList = productMapper.selectProductListByCateId(cateId);
@@ -190,7 +190,7 @@ public class IProductServiceImpl implements IProductService {
         }
         PageInfo pageInfo = new PageInfo(productList);
         pageInfo.setList(productListVOList);
-        return ServerReponse.createBySuccess(pageInfo);
+        return ServerResponse.createBySuccess(pageInfo);
     }
 
 

@@ -1,7 +1,7 @@
 package com.ellenmall.service.impl;
 
 import com.ellenmall.common.Constants;
-import com.ellenmall.common.ServerReponse;
+import com.ellenmall.common.ServerResponse;
 import com.ellenmall.dao.CartMapper;
 import com.ellenmall.dao.ProductMapper;
 import com.ellenmall.pojo.Cart;
@@ -34,7 +34,7 @@ public class ICartServiceImpl implements ICartService {
      * @param count
      * @return
      */
-    public ServerReponse<CartVo> add(Integer userId, Integer productId, Integer count){
+    public ServerResponse<CartVo> add(Integer userId, Integer productId, Integer count){
         Cart cart = cartMapper.selectCartByUserIdProductId(userId,productId);
         if(cart == null){//购物车中还没有这个商品 加入购物车
             cart = new Cart();
@@ -44,17 +44,17 @@ public class ICartServiceImpl implements ICartService {
             cart.setQuantity(count);
             int result = cartMapper.insert(cart);
             if(result>0){
-                return ServerReponse.createBySuccessMessage("加入购物车成功");
+                return ServerResponse.createBySuccessMessage("加入购物车成功");
             }else{
-                return ServerReponse.createByErrorMessage(Constants.Cart.ADD_TO_CART_FAIL);
+                return ServerResponse.createByErrorMessage(Constants.Cart.ADD_TO_CART_FAIL);
             }
         }else {//购物车中已经有这个商品了 更新这个购物车产品
             cart.setQuantity(cart.getQuantity().intValue()+count);
             int result = cartMapper.updateByPrimaryKeySelective(cart);
             if(result>0){
-                return ServerReponse.createBySuccessMessage("加入购物车成功");
+                return ServerResponse.createBySuccessMessage("加入购物车成功");
             }else{
-                return ServerReponse.createByErrorMessage(Constants.Cart.ADD_TO_CART_FAIL);
+                return ServerResponse.createByErrorMessage(Constants.Cart.ADD_TO_CART_FAIL);
             }
         }
     }
@@ -63,14 +63,14 @@ public class ICartServiceImpl implements ICartService {
      * 购物车列表
      * @return
      */
-    public ServerReponse list(Integer userId,Integer pageNum,Integer pageSize){
+    public ServerResponse list(Integer userId, Integer pageNum, Integer pageSize){
 //        PageHelper.startPage(pageNum,pageSize);
         List<Cart> cartList = cartMapper.selectCartByUserId(userId);
         List<CartProductListVo> cartProductListVos = getCartListVoList(cartList);
 //        PageInfo pageInfo = new PageInfo(cartProductListVos);
 //        pageInfo.setList(cartProductListVos);
 
-        return ServerReponse.createBySuccess(getCartVo(cartProductListVos,userId));
+        return ServerResponse.createBySuccess(getCartVo(cartProductListVos,userId));
     }
 
     /**
@@ -78,14 +78,14 @@ public class ICartServiceImpl implements ICartService {
      * @param id
      * @return
      */
-    public ServerReponse select(Integer userId,Integer id){
+    public ServerResponse select(Integer userId, Integer id){
         Cart cart = cartMapper.selectByPrimaryKey(id);
         cart.setChecked(Constants.Cart.CART_CHECK);
         int result = cartMapper.updateByPrimaryKey(cart);
         if(result > 0){
-            return ServerReponse.createBySuccess();
+            return ServerResponse.createBySuccess();
         }else{
-            return ServerReponse.createByErrorMessage("操作失败");
+            return ServerResponse.createByErrorMessage("操作失败");
         }
     }
 
@@ -93,16 +93,16 @@ public class ICartServiceImpl implements ICartService {
      * 全选商品
      * @return
      */
-    public ServerReponse selectAll(Integer userId){
+    public ServerResponse selectAll(Integer userId){
         List<Cart> cartList = cartMapper.selectCartByUserId(userId);
         for(Cart cart:cartList){
             cart.setChecked(Constants.Cart.CART_CHECK);
             int result = cartMapper.updateByPrimaryKey(cart);
             if(result == 0){
-                return ServerReponse.createByErrorMessage("操作失败");
+                return ServerResponse.createByErrorMessage("操作失败");
             }
         }
-        return ServerReponse.createBySuccess();
+        return ServerResponse.createBySuccess();
     }
 
     /**
@@ -110,14 +110,14 @@ public class ICartServiceImpl implements ICartService {
      * @param id
      * @return
      */
-    public ServerReponse unselect(Integer userId,Integer id){
+    public ServerResponse unselect(Integer userId, Integer id){
         Cart cart = cartMapper.selectByPrimaryKey(id);
         cart.setChecked(Constants.Cart.CART_UNCHECK);
         int result = cartMapper.updateByPrimaryKey(cart);
         if(result > 0){
-            return ServerReponse.createBySuccess();
+            return ServerResponse.createBySuccess();
         }else{
-            return ServerReponse.createByErrorMessage("操作失败");
+            return ServerResponse.createByErrorMessage("操作失败");
         }
     }
 
@@ -125,16 +125,16 @@ public class ICartServiceImpl implements ICartService {
      * 全部取消选中
      * @return
      */
-    public ServerReponse unselectAll(Integer userId){
+    public ServerResponse unselectAll(Integer userId){
         List<Cart> cartList = cartMapper.selectCartByUserId(userId);
         for(Cart cart:cartList){
             cart.setChecked(Constants.Cart.CART_UNCHECK);
             int result = cartMapper.updateByPrimaryKey(cart);
             if(result == 0){
-                return ServerReponse.createByErrorMessage("操作失败");
+                return ServerResponse.createByErrorMessage("操作失败");
             }
         }
-        return ServerReponse.createBySuccess();
+        return ServerResponse.createBySuccess();
     }
 
 
@@ -143,9 +143,9 @@ public class ICartServiceImpl implements ICartService {
      * @param userId
      * @return
      */
-    public ServerReponse getCartProductCount(Integer userId){
+    public ServerResponse getCartProductCount(Integer userId){
         int count = cartMapper.selectCountByUserId(userId);
-        return ServerReponse.createBySuccessMessage(String.valueOf(count));
+        return ServerResponse.createBySuccessMessage(String.valueOf(count));
     }
 
     /**
@@ -153,17 +153,17 @@ public class ICartServiceImpl implements ICartService {
      * @param cartProductIds
      * @return
      */
-    public ServerReponse delete_product(Integer userId, String cartProductIds){
+    public ServerResponse delete_product(Integer userId, String cartProductIds){
         int[] cartIds = com.ellenmall.util.StringUtils.strSplitToIntArr(cartProductIds,",");
         for(Integer cartId:cartIds){
             if(cartId!=0){
                 int result = cartMapper.deleteByPrimaryKey(cartId);
                 if(result==0){
-                    return ServerReponse.createByErrorMessage("删除失败");
+                    return ServerResponse.createByErrorMessage("删除失败");
                 }
             }
         }
-        return ServerReponse.createBySuccess();
+        return ServerResponse.createBySuccess();
     }
 
     private boolean isAllChecked(Integer userId){

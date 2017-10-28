@@ -1,6 +1,6 @@
 package com.ellenmall.service;
 
-import com.ellenmall.common.ServerReponse;
+import com.ellenmall.common.ServerResponse;
 import com.ellenmall.pojo.Shipping;
 
 /**
@@ -8,10 +8,10 @@ import com.ellenmall.pojo.Shipping;
  */
 public interface IShippingService {
 
-    ServerReponse add(Shipping shipping);
-    ServerReponse list(int userId);
-    ServerReponse update(Shipping shipping);
-    ServerReponse select(int userId,int shippingId);
-    ServerReponse del(int userId,int shippingId);
+    ServerResponse add(Shipping shipping);
+    ServerResponse list(int userId);
+    ServerResponse update(Shipping shipping);
+    ServerResponse select(int userId, int shippingId);
+    ServerResponse del(int userId, int shippingId);
 
 }

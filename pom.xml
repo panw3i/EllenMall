@@ -2,10 +2,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>ellenmall_groupid</groupId>
-    <artifactId>ellenmanll</artifactId>
+    <artifactId>ellenmall</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>ellenmanll_artifactid Maven Webapp</name>
+    <name>ellenmall_artifactid Maven Webapp</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -242,7 +242,7 @@
 
     </dependencies>
     <build>
-        <finalName>ellenmanll_artifactid</finalName>
+        <finalName>ROOT</finalName>
         <plugins>
             <plugin>
                 <groupId>org.mybatis.generator</groupId>

@@ -1,6 +1,6 @@
 package com.ellenmall.controller.portal;
 
-import com.ellenmall.common.ServerReponse;
+import com.ellenmall.common.ServerResponse;
 import com.ellenmall.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,16 +22,16 @@ public class ProductController  {
 
     @RequestMapping("detail.do")
     @ResponseBody
-    public ServerReponse detail(HttpSession session,Integer productId){
+    public ServerResponse detail(HttpSession session, Integer productId){
         return iProductService.productDetail(productId);
     }
 
     @RequestMapping("list.do")
     @ResponseBody
-    public ServerReponse list(HttpSession session, @RequestParam(value = "keyword",required = false) String keyword,
-                              @RequestParam(value = "cateId" ,required = false) Integer cateId,
-                              @RequestParam( value = "pageNum",defaultValue = "1") Integer pageNum,
-                              Integer pageSize){
+    public ServerResponse list(HttpSession session, @RequestParam(value = "keyword",required = false) String keyword,
+                               @RequestParam(value = "cateId" ,required = false) Integer cateId,
+                               @RequestParam( value = "pageNum",defaultValue = "1") Integer pageNum,
+                               Integer pageSize){
         return iProductService.manageProductList(cateId,pageNum,pageSize);
     }
 

@@ -1,6 +1,6 @@
 package com.ellenmall.service;
 
-import com.ellenmall.common.ServerReponse;
+import com.ellenmall.common.ServerResponse;
 import com.ellenmall.pojo.User;
 
 /**
@@ -8,23 +8,23 @@ import com.ellenmall.pojo.User;
  */
 public interface IUserService {
 
-    ServerReponse<User> login(String username, String password);
+    ServerResponse<User> login(String username, String password);
 
-    ServerReponse<String> register(User user);
+    ServerResponse<String> register(User user);
 
-    ServerReponse<String> checkValid(String str, String type);
+    ServerResponse<String> checkValid(String str, String type);
 
-    ServerReponse selectQuestion(String username);
+    ServerResponse selectQuestion(String username);
 
-    ServerReponse<String> checkAnswer(String username, String question, String answer);
+    ServerResponse<String> checkAnswer(String username, String question, String answer);
 
-    ServerReponse<String> forgetResetPwd(String username, String pwdnew, String forgetToken);
+    ServerResponse<String> forgetResetPwd(String username, String pwdnew, String forgetToken);
 
-    ServerReponse<String> resetPwd(String pwdOld,String pwdNew,User user);
+    ServerResponse<String> resetPwd(String pwdOld, String pwdNew, User user);
 
-    ServerReponse<User> updateInformation(User user);
+    ServerResponse<User> updateInformation(User user);
 
-    ServerReponse<User> getInfo(Integer userId);
+    ServerResponse<User> getInfo(Integer userId);
 
-    ServerReponse checkAdminRole(User user);
+    ServerResponse checkAdminRole(User user);
 }

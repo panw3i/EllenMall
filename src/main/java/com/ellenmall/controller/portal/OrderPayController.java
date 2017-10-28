@@ -1,6 +1,6 @@
 package com.ellenmall.controller.portal;
 
-import com.ellenmall.common.ServerReponse;
+import com.ellenmall.common.ServerResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -20,7 +20,7 @@ public class OrderPayController  {
      * @param orderNum
      * @return
      */
-    public ServerReponse pay(HttpSession session, Integer orderNum){
+    public ServerResponse pay(HttpSession session, Integer orderNum){
         return null;
     }
 
@@ -30,7 +30,7 @@ public class OrderPayController  {
      * @param orderNum
      * @return
      */
-    public ServerReponse queryOrderPayStatus(HttpSession session,Integer orderNum){
+    public ServerResponse queryOrderPayStatus(HttpSession session, Integer orderNum){
         return null;
     }
 
@@ -39,7 +39,7 @@ public class OrderPayController  {
      * @param session
      * @return
      */
-    public ServerReponse alipayCallback(HttpSession session){
+    public ServerResponse alipayCallback(HttpSession session){
         return null;
     }
 }

@@ -1,6 +1,6 @@
 package com.ellenmall.service;
 
-import com.ellenmall.common.ServerReponse;
+import com.ellenmall.common.ServerResponse;
 import com.ellenmall.pojo.Product;
 import com.github.pagehelper.PageInfo;
 
@@ -9,10 +9,10 @@ import com.github.pagehelper.PageInfo;
  */
 public interface IProductService {
 
-    ServerReponse saveOrUpdateProduct(Product product);
-    ServerReponse setSaleStatus(Integer productId,Integer status);
-    ServerReponse manageProductDetail(Integer productId);
-    ServerReponse<PageInfo> manageProductList(Integer cateId,int pageNum, int pageSize);
-    ServerReponse<PageInfo> manageSearchList(Integer product_id,String product_name,Integer pageNum,Integer pageSize);
-    ServerReponse productDetail(Integer productId);
+    ServerResponse saveOrUpdateProduct(Product product);
+    ServerResponse setSaleStatus(Integer productId, Integer status);
+    ServerResponse manageProductDetail(Integer productId);
+    ServerResponse<PageInfo> manageProductList(Integer cateId, int pageNum, int pageSize);
+    ServerResponse<PageInfo> manageSearchList(Integer product_id, String product_name, Integer pageNum, Integer pageSize);
+    ServerResponse productDetail(Integer productId);
 }

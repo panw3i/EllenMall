@@ -1,6 +1,6 @@
 package com.ellenmall.controller.backend;
 
-import com.ellenmall.common.ServerReponse;
+import com.ellenmall.common.ServerResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -13,19 +13,19 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/manage/order")
 public class OrderManageController {
 
-    public ServerReponse detail(HttpSession session,Integer orderNum){
+    public ServerResponse detail(HttpSession session, Integer orderNum){
         return null;
     }
 
-    public ServerReponse list(HttpSession session,Integer pageNum,Integer pageSize){
+    public ServerResponse list(HttpSession session, Integer pageNum, Integer pageSize){
         return null;
     }
 
-    public ServerReponse search(HttpSession session,Integer orderNum){
+    public ServerResponse search(HttpSession session, Integer orderNum){
         return null;
     }
 
-    public ServerReponse sendGoods(HttpSession session,Integer orderNum){
+    public ServerResponse sendGoods(HttpSession session, Integer orderNum){
         return null;
     }
 }
